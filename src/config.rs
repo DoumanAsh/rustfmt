@@ -29,33 +29,33 @@ pub mod lists;
 // `name: value type, default value, is stable, description;`
 create_config! {
     // Fundamental stuff
-    max_width: usize, 100, true, "Maximum width of each line";
+    max_width: usize, 120, true, "Maximum width of each line";
     hard_tabs: bool, false, true, "Use tab characters for indentation, spaces for alignment";
     tab_spaces: usize, 4, true, "Number of spaces per tab";
-    newline_style: NewlineStyle, NewlineStyle::Auto, true, "Unix or Windows line endings";
-    indent_style: IndentStyle, IndentStyle::Block, false, "How do we indent expressions or items";
-    width_heuristics: Heuristics, Heuristics::Scaled, true, "Controls width heuristics \
+    newline_style: NewlineStyle, NewlineStyle::Unix, true, "Unix or Windows line endings";
+    indent_style: IndentStyle, IndentStyle::Visual, false, "How do we indent expressions or items";
+    width_heuristics: Heuristics, Heuristics::Max, true, "Controls width heuristics \
         by setting the values for the individual width heuristic options";
 
     // Width Heuristics
-    fn_call_width: usize, 60, true, "Maximum width of the args of a function call before \
+    fn_call_width: usize, 120, true, "Maximum width of the args of a function call before \
         falling back to vertical formatting.";
-    attr_fn_like_width: usize, 70, true, "Maximum width of the args of a function-like \
+    attr_fn_like_width: usize, 120, true, "Maximum width of the args of a function-like \
         attributes before falling back to vertical formatting.";
-    struct_lit_width: usize, 18, true, "Maximum width in the body of a struct lit before \
+    struct_lit_width: usize, 80, true, "Maximum width in the body of a struct lit before \
         falling back to vertical formatting.";
-    struct_variant_width: usize, 35, true, "Maximum width in the body of a struct variant before \
+    struct_variant_width: usize, 80, true, "Maximum width in the body of a struct variant before \
         falling back to vertical formatting.";
-    array_width: usize, 60, true,  "Maximum width of an array literal before falling \
+    array_width: usize, 120, true,  "Maximum width of an array literal before falling \
         back to vertical formatting.";
-    chain_width: usize, 60, true, "Maximum length of a chain to fit on a single line.";
-    single_line_if_else_max_width: usize, 50, true, "Maximum line length for single line if-else \
+    chain_width: usize, 120, true, "Maximum length of a chain to fit on a single line.";
+    single_line_if_else_max_width: usize, 120, true, "Maximum line length for single line if-else \
         expressions. A value of zero means always break if-else expressions.";
 
     // Comments. macros, and strings
     wrap_comments: bool, false, false, "Break comments to fit on the line";
     format_code_in_doc_comments: bool, false, false, "Format the code snippet in doc comments.";
-    comment_width: usize, 80, false,
+    comment_width: usize, 120, false,
         "Maximum length of comments. No effect unless wrap_comments = true";
     normalize_comments: bool, false, false, "Convert /* */ comments to // comments where possible";
     normalize_doc_attributes: bool, false, false, "Normalize doc attributes as doc comments";
@@ -67,16 +67,16 @@ create_config! {
     format_macro_bodies: bool, true, false, "Format the bodies of macros";
 
     // Single line expressions and items
-    empty_item_single_line: bool, true, false,
+    empty_item_single_line: bool, false, false,
         "Put empty-body functions and impls on a single line";
-    struct_lit_single_line: bool, true, false,
+    struct_lit_single_line: bool, false, false,
         "Put small struct literals on a single line";
     fn_single_line: bool, false, false, "Put single-expression functions on a single line";
-    where_single_line: bool, false, false, "Force where-clauses to be on a single line";
+    where_single_line: bool, true, false, "Force where-clauses to be on a single line";
 
     // Imports
-    imports_indent: IndentStyle, IndentStyle::Block, false, "Indent of imports";
-    imports_layout: ListTactic, ListTactic::Mixed, false, "Item layout inside a import block";
+    imports_indent: IndentStyle, IndentStyle::Visual, false, "Indent of imports";
+    imports_layout: ListTactic, ListTactic::Horizontal, false, "Item layout inside a import block";
     imports_granularity: ImportGranularity, ImportGranularity::Preserve, false,
         "Merge or split imports to the provided granularity";
     group_imports: GroupImportsTactic, GroupImportsTactic::Preserve, false,
@@ -104,7 +104,7 @@ create_config! {
     // Misc.
     remove_nested_parens: bool, true, true, "Remove nested parens";
     combine_control_expr: bool, true, false, "Combine control expressions with function calls";
-    overflow_delimited_expr: bool, false, false,
+    overflow_delimited_expr: bool, true, false,
         "Allow trailing bracket/brace delimited expressions to overflow";
     struct_field_align_threshold: usize, 0, false,
         "Align struct fields if their diffs fits within threshold";
@@ -118,16 +118,16 @@ create_config! {
         "Force multiline closure bodies and match arms to be wrapped in a block";
     fn_params_layout: Density, Density::Tall, true,
         "Control the layout of parameters in a function signature";
-    brace_style: BraceStyle, BraceStyle::SameLineWhere, false, "Brace style for items";
+    brace_style: BraceStyle, BraceStyle::PreferSameLine, false, "Brace style for items";
     control_brace_style: ControlBraceStyle, ControlBraceStyle::AlwaysSameLine, false,
         "Brace style for control flow constructs";
     trailing_semicolon: bool, true, false,
         "Add trailing semicolon after break, continue and return";
     trailing_comma: SeparatorTactic, SeparatorTactic::Vertical, false,
         "How to handle trailing commas for lists";
-    match_block_trailing_comma: bool, false, true,
+    match_block_trailing_comma: bool, true, true,
         "Put a trailing comma after a block based match arm (non-block arms are not affected)";
-    blank_lines_upper_bound: usize, 1, false,
+    blank_lines_upper_bound: usize, 2, false,
         "Maximum number of blank lines which can be put between items";
     blank_lines_lower_bound: usize, 0, false,
         "Minimum number of blank lines which must be put between items";

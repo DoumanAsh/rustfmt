@@ -1656,7 +1656,6 @@ fn rewrite_struct_lit<'a>(
             context,
             force_no_trailing_comma
                 || has_base
-                || !context.use_block_indent()
                 || matches!(struct_rest, ast::StructRest::Rest(_)),
         );
 
@@ -1679,7 +1678,7 @@ pub(crate) fn wrap_struct_field(
     nested_shape: Shape,
     one_line_width: usize,
 ) -> Option<String> {
-    let should_vertical = context.config.indent_style() == IndentStyle::Block
+    let should_vertical = true
         && (fields_str.contains('\n')
             || !context.config.struct_lit_single_line()
             || fields_str.len() > one_line_width);
@@ -1827,7 +1826,7 @@ pub(crate) fn rewrite_tuple<'a, T: 'a + IntoOverflowableItem<'a>>(
     is_singleton_tuple: bool,
 ) -> Option<String> {
     debug!("rewrite_tuple {:?}", shape);
-    if context.use_block_indent() {
+    if true {
         // We use the same rule as function calls for rewriting tuples.
         let force_tactic = if context.inside_macro() {
             if span_ends_with_comma(context, span) {

@@ -990,11 +990,11 @@ pub(crate) fn struct_lit_shape(
     suffix_width: usize,
 ) -> Option<(Option<Shape>, Shape)> {
     let v_shape = match context.config.indent_style() {
-        IndentStyle::Visual => shape
-            .visual_indent(0)
-            .shrink_left(prefix_width)?
-            .sub_width(suffix_width)?,
-        IndentStyle::Block => {
+        //IndentStyle::Visual => shape
+        //    .visual_indent(0)
+        //    .shrink_left(prefix_width)?
+        //    .sub_width(suffix_width)?,
+        IndentStyle::Visual | IndentStyle::Block => {
             let shape = shape.block_indent(context.config.tab_spaces());
             Shape {
                 width: context.budget(shape.indent.width()),
@@ -1019,8 +1019,8 @@ pub(crate) fn struct_lit_tactic(
 ) -> DefinitiveListTactic {
     if let Some(h_shape) = h_shape {
         let prelim_tactic = match (context.config.indent_style(), items.len()) {
-            (IndentStyle::Visual, 1) => ListTactic::HorizontalVertical,
-            _ if context.config.struct_lit_single_line() => ListTactic::HorizontalVertical,
+            //(IndentStyle::Visual, 1) => ListTactic::HorizontalVertical,
+            //_ if context.config.struct_lit_single_line() => ListTactic::HorizontalVertical,
             _ => ListTactic::Vertical,
         };
         definitive_tactic(items, prelim_tactic, Separator::Comma, h_shape.width)
@@ -1050,8 +1050,7 @@ pub(crate) fn struct_lit_formatting<'a>(
     context: &'a RewriteContext<'_>,
     force_no_trailing_comma: bool,
 ) -> ListFormatting<'a> {
-    let ends_with_newline = context.config.indent_style() != IndentStyle::Visual
-        && tactic == DefinitiveListTactic::Vertical;
+    let ends_with_newline = true && tactic == DefinitiveListTactic::Vertical;
     ListFormatting {
         tactic,
         separator: ",",
